@@ -16,7 +16,7 @@ Berikut adalah flowchart yang menggambarkan alur kerja aplikasi:
 
 ## 🎬 Video Dokumentasi
 Silahkan klik tautan berikut untuk melihat video demonstrasi aplikasi:
-[Klik di sini]((https://youtu.be/VAJHexYkKdE))
+[Klik di sini](https://youtu.be/VAJHexYkKdE)
 
 ## 🌐 Website
 Jika Ingin Mengakses Website Demo, Silahkan download file toko komputer dan login menggunakan akun berikut:
