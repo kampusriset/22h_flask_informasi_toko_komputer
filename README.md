@@ -6,7 +6,7 @@ Digunakan untuk berjualan dan mengelola pelanggan stock komponen dengan tampilan
 ## 📊 Flowchart
 Berikut adalah flowchart yang menggambarkan alur kerja aplikasi:
 
-![Flowchart]([https://github.com/kampusriset/22h_flask_informasi_toko_komputer/blob/main/flowchart.png])
+![Flowchart](https://github.com/kampusriset/22h_flask_informasi_toko_komputer/blob/main/flowchart.png)
 
 ## 📝 Anggota Tim
 - **Haikal Azzikra Purwoko (2213010462)** - [ Leader ]
@@ -20,7 +20,7 @@ Silahkan klik tautan berikut untuk melihat video demonstrasi aplikasi:
 
 ## 🌐 Link Website
 Jika Ingin Mengakses Website Demo, Silahkan Klik tautan berikut:
-[Klik di sini]((http://127.0.0.1:5000/))
+[Klik di sini](http://127.0.0.1:5000/)
 
 User : admin
 Pass : admin123
