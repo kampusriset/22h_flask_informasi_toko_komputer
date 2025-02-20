@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Banner Slider Section -->
+<div class="banner-slider mb-5">
+    <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="banner-item" style="background-image: url({{ url_for('static', filename='uploads/RTX 5090.jpg') }})">
+                    <div class="banner-content">
+                        <h2>RTX 5090 Series</h2>
+                        <p>Performa gaming terbaik dengan teknologi ray-tracing terbaru</p>
+                        <a href="{{ url_for('products', category='VGA') }}" class="btn btn-primary btn-lg">Lihat Detail</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="banner-item" style="background-image: url({{ url_for('static', filename='uploads/RTX 4090.jpg') }})">
+                    <div class="banner-content">
+                        <h2>RTX 4090 Series</h2>
+                        <p>vga dengan edisi terbaru terbatas</p>
+                        <a href="{{ url_for('products', category='VGA') }}" class="btn btn-primary btn-lg">Beli Sekarang</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="banner-item" style="background-image: url({{ url_for('static', filename='uploads/9 9000.jpg') }})">
+                    <div class="banner-content">
+                        <h2>AMD Ryzen 9 9000 Series</h2>
+                        <p>Processor gaming dengan performa tinggi dan efisiensi maksimal</p>
+                        <a href="{{ url_for('products', category='Processor') }}" class="btn btn-primary btn-lg">Explore</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Tambahkan tombol navigasi -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<!-- Latest Products Section -->
+<div class="container mb-5">
+    <div class="section-header d-flex justify-content-between align-items-center mb-4">
+        <h2>Produk Terbaru</h2>
+        <a href="{{ url_for('products') }}" class="btn btn-outline-primary">Lihat Semua</a>
+    </div>
+    <div class="row g-4">
+        {% for product in latest_products %}
+        <div class="col-6 col-md-3">
+            <a href="{{ url_for('product_detail', id=product.id) }}" class="product-card-link">
+                <div class="product-card">
+                    <div class="product-image">
+                        {% if product.image_url %}
+                        <img src="{{ url_for('static', filename=product.image_url) }}" 
+                             alt="{{ product.name }}">
+                        {% else %}
+                        <div class="no-image">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">{{ product.category }}</div>
+                        <h3 class="product-title">{{ product.name }}</h3>
+                        <div class="product-price">Rp {{ "{:,.0f}".format(product.price) }}</div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Best Seller Products -->
+<div class="container mb-5">
+    <div class="section-header d-flex justify-content-between align-items-center mb-4">
+        <h2>Produk Terlaris</h2>
+        <a href="{{ url_for('products') }}" class="btn btn-outline-primary">Lihat Semua</a>
+    </div>
+    <div class="row g-4">
+        {% for product in best_sellers %}
+        <div class="col-6 col-md-3">
+            <div class="product-card">
+                <div class="product-image">
+                    {% if product.image_url %}
+                    <img src="{{ url_for('static', filename=product.image_url) }}" 
+                         alt="{{ product.name }}">
+                    {% else %}
+                    <div class="no-image">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    {% endif %}
+                    <div class="product-overlay">
+                        <a href="{{ url_for('products') }}" class="btn btn-light btn-sm">
+                            <i class="fas fa-eye"></i> Detail
+                        </a>
+                    </div>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">{{ product.category }}</div>
+                    <h3 class="product-title">{{ product.name }}</h3>
+                    <div class="product-price">Rp {{ "{:,.0f}".format(product.price) }}</div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Featured Products Grid -->
+<div class="container mb-5">
+    <div class="featured-grid">
+        <div class="featured-header d-flex justify-content-between align-items-center mb-4">
+            <h2>Produk Unggulan</h2>
+            <a href="{{ url_for('products') }}" class="btn btn-outline-primary">Lihat Semua</a>
+        </div>
+        <div class="row g-4">
+            {% for product in featured_products %}
+            <div class="col-md-3">
+                <div class="product-card">
+                    <div class="product-image">
+                        {% if product.image_url %}
+                        <img src="{{ url_for('static', filename=product.image_url) }}" 
+                             alt="{{ product.name }}">
+                        {% else %}
+                        <div class="no-image">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">{{ product.category }}</div>
+                        <h3 class="product-title">{{ product.name }}</h3>
+                        <div class="product-price">Rp {{ "%.2f"|format(product.price) }}</div>
+                        <a href="{{ url_for('products') }}" class="btn btn-primary w-100">Lihat Detail</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Categories Grid -->
+<div class="container mb-5">
+    <div class="categories-grid">
+        <h2 class="text-center mb-4">Kategori Produk</h2>
+        <div class="row g-4">
+            {% for category in categories %}
+            <div class="col-6 col-md-3">
+                <a href="{{ url_for('products', category=category.name) }}" class="category-card">
+                    <div class="category-item">
+                        <div class="category-icon">
+                            <i class="fas fa-{{ category.icon }} text-{{ category.color }}"></i>
+                        </div>
+                        <h3>{{ category.name }}</h3>
+                        <span class="product-count">{{ category.count }} Produk</span>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container mb-5">
+    <div class="features-grid">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card dark-theme">
+                    <div class="feature-icon">
+                        <i class="fas fa-truck-fast"></i>
+                    </div>
+                    <h3>Pengiriman Cepat</h3>
+                    <p>Layanan pengiriman ke seluruh Indonesia dengan berbagai pilihan ekspedisi.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card dark-theme">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield"></i>
+                    </div>
+                    <h3>Garansi Resmi</h3>
+                    <p>Semua produk dijamin original dengan garansi resmi dari distributor.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card dark-theme">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Layanan 24/7</h3>
+                    <p>Tim support kami siap membantu Anda kapanpun dibutuhkan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

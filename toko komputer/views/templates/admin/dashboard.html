@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4">Dashboard Admin</h2>
+    
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Produk</h5>
+                    <h2 class="card-text">{{ total_products }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total User</h5>
+                    <h2 class="card-text">{{ total_users }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Customer</h5>
+                    <h2 class="card-text">{{ total_customers }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Table -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Daftar Produk</h5>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                <i class="fas fa-plus me-2"></i>Tambah Produk
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Gambar</th>
+                            <th>Nama</th>
+                            <th>Kategori</th>
+                            <th>Harga</th>
+                            <th>Stok</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products.items %}
+                        <tr>
+                            <td>{{ product.id }}</td>
+                            <td>
+                                {% if product.image_url %}
+                                <img src="{{ url_for('static', filename=product.image_url) }}" 
+                                     alt="{{ product.name }}" 
+                                     style="height: 50px; width: 50px; object-fit: cover;">
+                                {% else %}
+                                <i class="fas fa-image text-muted"></i>
+                                {% endif %}
+                            </td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.category }}</td>
+                            <td>Rp {{ "{:,.0f}".format(product.price) }}</td>
+                            <td>{{ product.stock }}</td>
+                            <td>
+                                {% if product.stock <= 0 %}
+                                    <span class="badge bg-danger">Stok Habis</span>
+                                {% elif product.stock <= 5 %}
+                                    <span class="badge bg-warning">Stok Menipis</span>
+                                {% else %}
+                                    <span class="badge bg-success">Tersedia</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-primary" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#editProductModal{{ product.id }}">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <a href="{{ url_for('delete_product', id=product.id) }}" 
+                                       class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Yakin ingin menghapus produk ini?')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <!-- Previous Page -->
+                    <li class="page-item {{ 'disabled' if not products.has_prev }}">
+                        <a class="page-link" 
+                           href="{{ url_for('admin_dashboard', page=products.prev_num) if products.has_prev else '#' }}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    
+                    <!-- Page Numbers -->
+                    {% for page_num in products.iter_pages(left_edge=2, left_current=2, right_current=3, right_edge=2) %}
+                        {% if page_num %}
+                            <li class="page-item {{ 'active' if page_num == products.page }}">
+                                <a class="page-link" href="{{ url_for('admin_dashboard', page=page_num) }}">
+                                    {{ page_num }}
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">...</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    <!-- Next Page -->
+                    <li class="page-item {{ 'disabled' if not products.has_next }}">
+                        <a class="page-link" 
+                           href="{{ url_for('admin_dashboard', page=products.next_num) if products.has_next else '#' }}">
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Add Product Modal -->
+<div class="modal fade" id="addProductModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Produk</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('add_product') }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nama Produk</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Deskripsi</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Harga</label>
+                        <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stock" class="form-label">Stok</label>
+                        <input type="number" class="form-control" id="stock" name="stock" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Kategori</label>
+                        <input type="text" class="form-control" id="category" name="category" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="supplier" class="form-label">Supplier</label>
+                        <input type="text" class="form-control" id="supplier" name="supplier">
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Gambar Produk</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Product Modals -->
+{% for product in products.items %}
+<div class="modal fade" id="editProductModal{{ product.id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Produk</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('edit_product', id=product.id) }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name{{ product.id }}" class="form-label">Nama Produk</label>
+                        <input type="text" class="form-control" id="name{{ product.id }}" 
+                               name="name" value="{{ product.name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description{{ product.id }}" class="form-label">Deskripsi</label>
+                        <textarea class="form-control" id="description{{ product.id }}" 
+                                 name="description" rows="3">{{ product.description }}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price{{ product.id }}" class="form-label">Harga</label>
+                        <input type="number" class="form-control" id="price{{ product.id }}" 
+                               name="price" value="{{ product.price }}" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stock{{ product.id }}" class="form-label">Stok</label>
+                        <input type="number" class="form-control" id="stock{{ product.id }}" 
+                               name="stock" value="{{ product.stock }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category{{ product.id }}" class="form-label">Kategori</label>
+                        <input type="text" class="form-control" id="category{{ product.id }}" 
+                               name="category" value="{{ product.category }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="supplier{{ product.id }}" class="form-label">Supplier</label>
+                        <input type="text" class="form-control" id="supplier{{ product.id }}" 
+                               name="supplier" value="{{ product.supplier }}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="image{{ product.id }}" class="form-label">Gambar Produk</label>
+                        <input type="file" class="form-control" id="image{{ product.id }}" 
+                               name="image" accept="image/*">
+                        {% if product.image_url %}
+                        <div class="mt-2">
+                            <small class="text-muted">Gambar saat ini:</small><br>
+                            <img src="{{ url_for('static', filename=product.image_url) }}" 
+                                 alt="Current image" style="height: 100px; object-fit: cover;">
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<!-- Include your modals here -->
+{% endblock %} 

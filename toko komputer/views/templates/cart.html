@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Keranjang Belanja</h5>
+                    <span class="badge bg-primary">{{ cart.items|length }} Item</span>
+                </div>
+                <div class="card-body">
+                    {% if cart.items %}
+                    <div class="cart-items">
+                        {% for item in cart.items %}
+                        <div class="cart-item mb-3">
+                            <div class="row align-items-center">
+                                <div class="col-md-2">
+                                    {% if item.product.image_url %}
+                                    <img src="{{ url_for('static', filename=item.product.image_url) }}" 
+                                         class="img-fluid rounded" alt="{{ item.product.name }}">
+                                    {% else %}
+                                    <div class="no-image-small">
+                                        <i class="fas fa-image"></i>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4">
+                                    <h6 class="product-name">
+                                        <a href="{{ url_for('product_detail', id=item.product.id) }}">
+                                            {{ item.product.name }}
+                                        </a>
+                                    </h6>
+                                    <small class="text-muted">{{ item.product.category }}</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="quantity-control">
+                                        <button class="btn btn-sm btn-outline-primary" 
+                                                onclick="updateQuantity({{ item.id }}, 'decrease')">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <span class="quantity mx-2">{{ item.quantity }}</span>
+                                        <button class="btn btn-sm btn-outline-primary"
+                                                onclick="updateQuantity({{ item.id }}, 'increase')">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="price">Rp {{ "{:,.0f}".format(item.get_subtotal()) }}</div>
+                                </div>
+                                <div class="col-md-1">
+                                    <button class="btn btn-sm btn-outline-danger" 
+                                            onclick="removeItem({{ item.id }})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-shopping-cart fa-3x mb-3"></i>
+                        <h5>Keranjang Belanja Kosong</h5>
+                        <p class="text-muted">Ayo mulai belanja!</p>
+                        <a href="{{ url_for('products') }}" class="btn btn-primary">
+                            Lihat Produk
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Ringkasan Belanja</h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Total Item</span>
+                        <span>{{ cart.items|length }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Total Harga</span>
+                        <span class="total-price">Rp {{ "{:,.0f}".format(cart.get_total()) }}</span>
+                    </div>
+                    <button class="btn btn-primary w-100" 
+                            {% if not cart.items %}disabled{% endif %}
+                            onclick="processPayment()">
+                        Lanjut ke Pembayaran
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered success-modal">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="success-animation">
+                    <div class="circle"></div>
+                    <div class="check"></div>
+                </div>
+                <h4>Pembayaran Berhasil!</h4>
+                <p>Terima kasih telah berbelanja di toko kami</p>
+                <div class="mt-4">
+                    <a href="{{ url_for('products') }}" class="btn btn-primary">
+                        <i class="fas fa-shopping-cart me-2"></i>Lanjut Belanja
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateQuantity(itemId, action) {
+    fetch(`/cart/update/${itemId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action: action })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    });
+}
+
+function removeItem(itemId) {
+    if (confirm('Yakin ingin menghapus item ini?')) {
+        fetch(`/cart/remove/${itemId}`, {
+            method: 'POST'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            }
+        });
+    }
+}
+
+function processPayment() {
+    // Simulasi proses pembayaran
+    setTimeout(() => {
+        // Tampilkan modal sukses
+        var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        successModal.show();
+        
+        // Clear cart setelah 3 detik
+        setTimeout(() => {
+            fetch('/cart/clear', {
+                method: 'POST'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Redirect ke halaman produk setelah modal ditutup
+                    successModal._element.addEventListener('hidden.bs.modal', function () {
+                        window.location.href = "{{ url_for('products') }}";
+                    });
+                }
+            });
+        }, 3000);
+    }, 1000);
+}
+</script>
+{% endblock %} 

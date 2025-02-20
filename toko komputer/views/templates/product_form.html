@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">{{ 'Tambah' if mode == 'add' else 'Edit' }} Produk</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% if product and product.image_url %}
+                        <div class="mb-3 text-center">
+                            <img src="{{ url_for('static', filename=product.image_url) }}" 
+                                 alt="{{ product.name }}" 
+                                 class="img-thumbnail" 
+                                 style="max-height: 200px;">
+                        </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Gambar Produk</label>
+                            <input type="file" class="form-control" id="image" name="image" 
+                                   accept="image/*">
+                            {% if product and product.image_url %}
+                            <small class="text-muted">Upload gambar baru untuk mengganti gambar yang ada</small>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama Produk</label>
+                            <input type="text" class="form-control" id="name" name="name" 
+                                   value="{{ product.name if product else '' }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Deskripsi</label>
+                            <textarea class="form-control" id="description" name="description" 
+                                    rows="3">{{ product.description if product else '' }}</textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="price" class="form-label">Harga</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Rp</span>
+                                        <input type="number" class="form-control" id="price" name="price" 
+                                               value="{{ product.price if product else '' }}" step="0.01" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="stock" class="form-label">Stok</label>
+                                    <input type="number" class="form-control" id="stock" name="stock" 
+                                           value="{{ product.stock if product else '' }}" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Kategori</label>
+                            <input type="text" class="form-control" id="category" name="category" 
+                                   value="{{ product.category if product else '' }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="supplier" class="form-label">Supplier</label>
+                            <input type="text" class="form-control" id="supplier" name="supplier" 
+                                   value="{{ product.supplier if product else '' }}">
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ url_for('products') }}" class="btn btn-secondary">Kembali</a>
+                            <button type="submit" class="btn btn-primary">
+                                {{ 'Tambah' if mode == 'add' else 'Simpan' }} Produk
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

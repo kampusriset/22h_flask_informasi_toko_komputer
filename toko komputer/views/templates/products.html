@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="search-header">
+    <h2>
+        {% if search %}
+            Hasil Pencarian: "{{ search }}"
+        {% else %}
+            Semua Produk
+        {% endif %}
+    </h2>
+    
+    <div class="d-flex align-items-center gap-3">
+        <!-- Sort Options -->
+        <div class="dropdown">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                Urutkan: {{ {'name': 'Nama', 'price_low': 'Harga Terendah', 
+                            'price_high': 'Harga Tertinggi', 'newest': 'Terbaru'}[selected_sort] }}
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ url_for('products', search=search, category=selected_category, sort='name') }}">Nama</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('products', search=search, category=selected_category, sort='price_low') }}">Harga Terendah</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('products', search=search, category=selected_category, sort='price_high') }}">Harga Tertinggi</a></li>
+                <li><a class="dropdown-item" href="{{ url_for('products', search=search, category=selected_category, sort='newest') }}">Terbaru</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Category Filters -->
+<div class="search-filters">
+    <a href="{{ url_for('products', search=search, sort=selected_sort) }}" 
+       class="btn btn-{{ 'primary' if not selected_category else 'outline-primary' }}">
+        Semua
+    </a>
+    {% for category in categories %}
+    <a href="{{ url_for('products', search=search, category=category[0], sort=selected_sort) }}" 
+       class="btn btn-{{ 'primary' if selected_category == category[0] else 'outline-primary' }}">
+        {{ category[0] }}
+    </a>
+    {% endfor %}
+</div>
+
+<div class="row g-4">
+    {% if products %}
+        {% for product in products %}
+        <div class="col-6 col-md-3">
+            <a href="{{ url_for('product_detail', id=product.id) }}" class="product-card-link">
+                <div class="card product-card">
+                    <div class="product-image">
+                        {% if product.image_url %}
+                            <img src="{{ url_for('static', filename=product.image_url) }}" alt="{{ product.name }}">
+                        {% else %}
+                            <div class="no-image">
+                                <i class="fas fa-image"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">{{ product.category }}</div>
+                        <h3 class="product-title">{{ product.name }}</h3>
+                        <div class="product-price">Rp {{ "{:,.0f}".format(product.price) }}</div>
+                        
+                        <!-- Tampilkan status stok -->
+                        {% if product.stock <= 0 %}
+                            <div class="stock-status out-of-stock">Stok Habis</div>
+                            <button class="btn btn-secondary w-100" disabled>Tambah ke Keranjang</button>
+                        {% else %}
+                            <div class="stock-status in-stock">Stok: {{ product.stock }}</div>
+                            <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST">
+                                <button type="submit" class="btn btn-primary w-100">Tambah ke Keranjang</button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        {% if current_user.is_authenticated and current_user.is_admin() %}
+        <!-- Modal Edit -->
+        <div class="modal fade" id="editProductModal{{ product.id }}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Produk</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <form action="{{ url_for('edit_product', id=product.id) }}" method="POST">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Nama Produk</label>
+                                <input type="text" class="form-control" id="name" name="name" 
+                                       value="{{ product.name }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Deskripsi</label>
+                                <textarea class="form-control" id="description" name="description" 
+                                          rows="3">{{ product.description }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Harga</label>
+                                <input type="number" class="form-control" id="price" name="price" 
+                                       value="{{ product.price }}" step="0.01" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="stock" class="form-label">Stok</label>
+                                <input type="number" class="form-control" id="stock" name="stock" 
+                                       value="{{ product.stock }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Kategori</label>
+                                <input type="text" class="form-control" id="category" name="category" 
+                                       value="{{ product.category }}" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    {% else %}
+        <div class="no-results">
+            <i class="fas fa-search fa-3x mb-3"></i>
+            <h3>Tidak ada produk yang ditemukan</h3>
+            <p>Coba kata kunci lain atau hapus filter yang ada</p>
+        </div>
+    {% endif %}
+</div>
+
+{% if current_user.is_authenticated and current_user.is_admin() %}
+<!-- Modal Add -->
+<div class="modal fade" id="addProductModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Produk</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('add_product') }}" method="POST">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nama Produk</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Deskripsi</label>
+                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Harga</label>
+                        <input type="number" class="form-control" id="price" name="price" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stock" class="form-label">Stok</label>
+                        <input type="number" class="form-control" id="stock" name="stock" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Kategori</label>
+                        <input type="text" class="form-control" id="category" name="category" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %} 

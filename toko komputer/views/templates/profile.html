@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        {% if current_user.profile_image %}
+                        <img src="{{ url_for('static', filename=current_user.profile_image) }}" 
+                             class="rounded-circle profile-image mb-3" 
+                             alt="Profile Image">
+                        {% else %}
+                        <div class="profile-image-placeholder mb-3">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        {% endif %}
+                        <h3>{{ current_user.name }}</h3>
+                        <p class="text-muted">
+                            @{{ current_user.username }}
+                            <span class="badge bg-{{ 'primary' if current_user.is_admin() else 'secondary' }}">
+                                {{ current_user.role }}
+                            </span>
+                        </p>
+                    </div>
+
+                    <form method="POST" action="{{ url_for('update_profile') }}" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" name="username" 
+                                   value="{{ current_user.username }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nama</label>
+                            <input type="text" class="form-control" name="name" 
+                                   value="{{ current_user.name }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password Baru (kosongkan jika tidak ingin mengubah)</label>
+                            <input type="password" class="form-control" name="password">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Foto Profil</label>
+                            <input type="file" class="form-control" name="profile_image" 
+                                   accept="image/*">
+                            <small class="text-muted">Format yang didukung: JPG, PNG, GIF. Maksimal 2MB</small>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Update Profil</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Riwayat Aktivitas -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Informasi Akun</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Tanggal Bergabung:</strong></p>
+                            <p class="text-muted">{{ current_user.created_at.strftime('%d %B %Y') }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Status:</strong></p>
+                            <p class="text-muted">{{ 'Admin' if current_user.is_admin() else 'Customer' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

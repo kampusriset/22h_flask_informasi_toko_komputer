@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body p-4">
+                <div class="text-center mb-4">
+                    <img src="{{ url_for('static', filename='uploads/logo.png') }}" 
+                         alt="Toko Komputer Logo" 
+                         class="login-logo mb-3">
+                    <h3>Masuk ke Akun Anda</h3>
+                </div>
+                
+                <form method="POST" action="{{ url_for('login') }}">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        <div class="form-floating">
+                            {{ form.username(class="form-control", placeholder="Username") }}
+                            <label for="username">Username</label>
+                        </div>
+                        {% for error in form.username.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="form-floating">
+                            {{ form.password(class="form-control", placeholder="Password") }}
+                            <label for="password">Password</label>
+                        </div>
+                        {% for error in form.password.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">MASUK</button>
+                        <a href="{{ url_for('register') }}" class="btn btn-outline-primary">DAFTAR AKUN BARU</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Render home content -->
+{{ home_content|safe if home_content }}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+    loginModal.show();
+});
+</script>
+{% endblock %} 

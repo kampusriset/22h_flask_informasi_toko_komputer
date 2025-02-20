@@ -1,0 +1,1391 @@
+/* Epic Games Store Theme Colors - Updated for Computer Store */
+:root {
+    --epic-dark: #121212;
+    --epic-darker: #0f1011;
+    --epic-blue: #0074e4;
+    --epic-light-blue: #0078f2;
+    --epic-gray: #1c1c1c;
+    --epic-light-gray: #999999;
+    --epic-text: #ffffff;
+    --epic-text-secondary: #cccccc;
+    --epic-accent: #037BEF;
+    --epic-hover: #0066cc;
+}
+
+/* Base Theme */
+body {
+    background-color: var(--epic-dark);
+    background-image: url('../uploads/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--epic-text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container.mt-4 {
+    flex: 1 0 auto;
+}
+
+.jumbotron {
+    padding: 2rem 1rem;
+    margin-bottom: 2rem;
+    background-color: #e9ecef;
+    border-radius: .3rem;
+}
+
+.card {
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.navbar {
+    margin-bottom: 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.alert {
+    margin-bottom: 1rem;
+}
+
+.btn-group {
+    gap: 0.5rem;
+}
+
+.badge {
+    padding: 0.5em 0.8em;
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+.bg-danger {
+    background-color: #dc3545 !important;
+}
+
+.bg-warning {
+    background-color: #ffc107 !important;
+    color: #000 !important;
+}
+
+.bg-success {
+    background-color: #198754 !important;
+}
+
+.dropdown-toggle::after {
+    vertical-align: middle;
+}
+
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('../img/hero-bg.jpg') center/cover;
+    color: white;
+    padding: 100px 0;
+    margin-top: -2rem;
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.card {
+    transition: transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.category-card {
+    text-decoration: none;
+}
+
+.category-card:hover {
+    text-decoration: none;
+}
+
+/* Banner Slider */
+.banner-slider {
+    margin-top: 0;
+}
+
+.banner-item {
+    height: 600px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.banner-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        rgba(15, 16, 17, 0.95) 0%, 
+        rgba(15, 16, 17, 0.8) 50%, 
+        rgba(15, 16, 17, 0.4) 100%);
+}
+
+.banner-content {
+    position: absolute;
+    left: 5%;
+    bottom: 15%;
+    max-width: 600px;
+    color: white;
+    z-index: 1;
+}
+
+.banner-content h2 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.banner-content p {
+    font-size: 1.4rem;
+    margin-bottom: 2.5rem;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.banner-content .btn-lg {
+    padding: 0.8rem 2rem;
+    font-size: 1.2rem;
+}
+
+/* Carousel Controls */
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.carousel:hover .carousel-control-prev,
+.carousel:hover .carousel-control-next {
+    opacity: 0.8;
+}
+
+.carousel-indicators {
+    z-index: 2;
+}
+
+/* Product Cards */
+.product-card {
+    background-color: var(--epic-gray);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%;
+    border: 1px solid var(--epic-accent);
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.product-image {
+    position: relative;
+    width: 100%;
+    padding-top: 100%; /* Aspect ratio 1:1 */
+    background: var(--epic-darker);
+    overflow: hidden;
+}
+
+.product-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 1rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-category {
+    font-size: 0.8rem;
+    color: var(--epic-light-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.product-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--epic-text);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 2.8rem; /* 2 lines x 1.4 line-height */
+}
+
+.product-price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--epic-text);
+    margin-top: auto;
+    margin-bottom: 0.5rem;
+}
+
+.stock-status {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-card .btn {
+    width: 100%;
+    margin-top: auto;
+}
+
+.no-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--epic-darker);
+    color: var(--epic-light-gray);
+    font-size: 2rem;
+}
+
+.product-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.product-card-link:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Category Cards */
+.category-card {
+    text-decoration: none;
+}
+
+.category-item {
+    background-color: var(--epic-gray);
+    border-radius: 4px;
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.category-item:hover {
+    border-color: var(--epic-accent);
+    transform: translateY(-2px);
+}
+
+.category-icon {
+    color: var(--epic-accent);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.category-item h3 {
+    color: #2a2a2a;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-count {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Feature Cards */
+.feature-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    height: 100%;
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #0d6efd;
+}
+
+.feature-card h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.feature-card p {
+    color: #666;
+    margin-bottom: 0;
+}
+
+/* Section Headers */
+.section-header {
+    border-bottom: none;
+    margin-bottom: 2rem;
+}
+
+.section-header h2 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--epic-text);
+}
+
+/* Profile Styles */
+.profile-image {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.profile-image-placeholder {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    color: #dee2e6;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Updated styles for dark theme */
+.navbar {
+    background-color: var(--epic-darker) !important;
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    color: var(--epic-text) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: var(--epic-text-secondary);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: var(--epic-text);
+}
+
+/* Card Dark Theme */
+.card {
+    background-color: var(--epic-gray);
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.card-header {
+    background-color: var(--epic-darker);
+    color: var(--epic-text);
+    border-bottom: none;
+}
+
+.card-body {
+    color: #ffffff;
+}
+
+/* Table Dark Theme */
+.table {
+    color: var(--epic-text);
+}
+
+.table thead th {
+    background-color: var(--epic-darker);
+    color: var(--epic-text);
+    border-color: var(--epic-gray);
+}
+
+.table tbody td {
+    border-color: var(--epic-gray);
+}
+
+.table-hover tbody tr:hover {
+    background-color: #404040;
+    color: #ffffff;
+}
+
+/* Form Dark Theme */
+.form-control {
+    background-color: var(--epic-darker);
+    border: 1px solid var(--epic-gray);
+    color: var(--epic-text);
+    padding: 0.75rem 1rem;
+}
+
+.form-control:focus {
+    background-color: var(--epic-darker);
+    border-color: var(--epic-accent);
+    box-shadow: none;
+}
+
+.form-control::placeholder {
+    color: #808080;
+}
+
+/* Modal Dark Theme */
+.modal-content {
+    background-color: var(--epic-gray);
+    color: var(--epic-text);
+}
+
+.modal-header {
+    background-color: var(--epic-darker);
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: 1px solid #404040;
+}
+
+/* Product Card Dark Theme */
+.product-card {
+    background-color: var(--epic-gray);
+}
+
+.product-info {
+    background-color: var(--epic-gray);
+}
+
+.product-title {
+    color: var(--epic-text);
+}
+
+.product-category {
+    color: var(--epic-light-gray);
+}
+
+.product-price {
+    color: var(--epic-text);
+    font-weight: bold;
+}
+
+/* Category Card Dark Theme */
+.category-item {
+    background-color: #2d2d2d;
+}
+
+.category-item h3 {
+    color: #ffffff;
+}
+
+.product-count {
+    color: #b0b0b0;
+}
+
+/* Feature Card Dark Theme */
+.feature-card.dark-theme {
+    background: var(--epic-gray);
+    border: 1px solid var(--epic-darker);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    padding: 2rem;
+    text-align: center;
+    height: 100%;
+}
+
+.feature-card.dark-theme .feature-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: var(--epic-darker);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.feature-card.dark-theme .feature-icon i {
+    font-size: 2rem;
+    color: var(--epic-accent);
+}
+
+.feature-card.dark-theme h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.feature-card.dark-theme p {
+    color: var(--epic-text-secondary);
+    margin-bottom: 0;
+}
+
+/* Alert Modifications */
+.alert {
+    background-color: var(--epic-gray);
+    border: 1px solid var(--epic-darker);
+}
+
+/* Dropdown Dark Theme */
+.dropdown-menu {
+    background-color: var(--epic-gray);
+    border: 1px solid var(--epic-darker);
+}
+
+.dropdown-item {
+    color: var(--epic-text);
+}
+
+.dropdown-item:hover {
+    background-color: var(--epic-darker);
+    color: var(--epic-text);
+}
+
+.dropdown-divider {
+    border-top: 1px solid #404040;
+}
+
+/* Button Modifications */
+.btn-outline-primary {
+    color: var(--epic-blue);
+    border-color: var(--epic-blue);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--epic-blue);
+    color: var(--epic-text);
+}
+
+/* Section Headers */
+.section-header {
+    border-bottom-color: var(--epic-gray);
+}
+
+.section-header h2 {
+    color: var(--epic-text);
+}
+
+/* Banner Content Modifications */
+.banner-content h2 {
+    color: var(--epic-text);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.banner-content p {
+    color: var(--epic-text-secondary);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+}
+
+/* Pagination Dark Theme */
+.pagination .page-link {
+    background-color: #2d2d2d;
+    border-color: #404040;
+    color: #ffffff;
+}
+
+.pagination .page-link:hover {
+    background-color: #404040;
+    border-color: #404040;
+    color: #ffffff;
+}
+
+.pagination .active .page-link {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+/* Product Detail Styles */
+.product-detail-image {
+    background-color: var(--epic-darker);
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+.product-detail-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+.no-image-placeholder {
+    background: var(--epic-darker);
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-size: 4rem;
+    color: var(--epic-light-gray);
+}
+
+.product-detail-info {
+    background-color: var(--epic-gray);
+    border-radius: 4px;
+    padding: 2rem;
+}
+
+.product-detail-info .product-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.category-badge {
+    margin: 1rem 0;
+}
+
+.product-price {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--epic-text);
+    margin-bottom: 0.5rem;
+}
+
+.stock-status {
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+    text-align: center;
+}
+
+.stock-status.in-stock {
+    background-color: var(--epic-darker);
+    color: var(--epic-text);
+}
+
+.stock-status.out-of-stock {
+    background-color: #dc3545;
+    color: white;
+}
+
+.product-description {
+    font-size: 0.9rem;
+    color: var(--epic-text-secondary);
+    line-height: 1.6;
+}
+
+.product-meta {
+    color: var(--epic-text-secondary);
+}
+
+.product-meta p {
+    margin-bottom: 0.5rem;
+}
+
+.product-meta i {
+    width: 20px;
+    margin-right: 10px;
+    color: var(--epic-blue);
+}
+
+/* Button Redesign */
+.btn-primary {
+    background-color: var(--epic-accent);
+    border: none;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--epic-hover);
+}
+
+/* Product Hero Section - Khusus untuk halaman detail */
+.product-hero {
+    position: relative;
+    min-height: 600px;
+    background-size: cover;
+    background-position: center;
+    color: var(--epic-text);
+    display: flex;
+    align-items: center;
+    margin-top: -1.5rem;
+}
+
+.product-hero .product-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        rgba(15, 16, 17, 0.95) 0%, 
+        rgba(15, 16, 17, 0.8) 50%, 
+        rgba(15, 16, 17, 0.4) 100%);
+}
+
+.product-hero .product-hero-content {
+    position: relative;
+    z-index: 1;
+    padding: 3rem 0;
+}
+
+.product-hero .product-badges .badge {
+    margin-right: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.product-hero .product-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+    color: var(--epic-text);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    white-space: normal;
+    overflow: visible;
+}
+
+/* Product Detail Specific Styles */
+.product-detail-meta {
+    font-size: 1rem;
+    color: var(--epic-text-secondary);
+}
+
+.product-detail-meta > div {
+    margin-bottom: 0.5rem;
+}
+
+.product-detail-meta i {
+    width: 20px;
+    color: var(--epic-accent);
+}
+
+.product-detail-price {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--epic-text);
+}
+
+/* Specifications Grid - Khusus untuk halaman detail */
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.spec-item {
+    background: var(--epic-darker);
+    padding: 1rem;
+    border-radius: 4px;
+}
+
+.spec-label {
+    color: var(--epic-text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.spec-value {
+    color: var(--epic-text);
+    font-weight: 500;
+}
+
+/* Product Detail Sidebar */
+.product-detail-sidebar {
+    background: var(--epic-gray);
+    border-radius: 4px;
+    padding: 1.5rem;
+    position: sticky;
+    top: 2rem;
+}
+
+.product-detail-thumbnail {
+    margin-bottom: 1.5rem;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* Purchase Info - Khusus untuk halaman detail */
+.purchase-info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.purchase-info li {
+    padding: 0.75rem 0;
+    color: var(--epic-text-secondary);
+    border-bottom: 1px solid var(--epic-darker);
+}
+
+.purchase-info li:last-child {
+    border-bottom: none;
+}
+
+.purchase-info i {
+    width: 25px;
+    color: var(--epic-accent);
+}
+
+/* Admin Actions - Khusus untuk halaman detail */
+.product-hero .admin-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Buy Button - Khusus untuk halaman detail */
+.buy-now {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    width: 100%;
+}
+
+/* Price Styles - Home Page */
+.product-card .product-price {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--epic-text);
+}
+
+/* Price Styles - Detail Page */
+.product-hero .price-tag {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--epic-text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.product-hero .price-tag::before {
+    content: 'Rp';
+    font-size: 1rem;
+    color: var(--epic-text-secondary);
+}
+
+/* Specifications Price */
+.spec-item .spec-value.price {
+    font-size: 1.2rem;
+    color: var(--epic-accent);
+}
+
+/* Success Animation */
+.success-animation {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.success-animation .circle {
+    width: 100px;
+    height: 100px;
+    border: 4px solid #4CAF50;
+    border-radius: 50%;
+    position: absolute;
+    animation: circle 0.6s ease-in-out both;
+}
+
+.success-animation .check {
+    width: 50px;
+    height: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -65%) rotate(-45deg);
+    transform-origin: center;
+}
+
+.success-animation .check::before,
+.success-animation .check::after {
+    content: '';
+    position: absolute;
+    background: #4CAF50;
+    border-radius: 2px;
+}
+
+.success-animation .check::before {
+    width: 4px;
+    height: 0;
+    left: 0;
+    bottom: 0;
+    animation: check-before 0.3s ease-in-out 0.6s forwards;
+}
+
+.success-animation .check::after {
+    width: 0;
+    height: 4px;
+    right: 0;
+    bottom: 0;
+    animation: check-after 0.3s ease-in-out 0.9s forwards;
+}
+
+@keyframes circle {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes check-before {
+    0% {
+        height: 0;
+    }
+    100% {
+        height: 25px;
+    }
+}
+
+@keyframes check-after {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 50px;
+    }
+}
+
+/* Modal Success Styles */
+.success-modal .modal-content {
+    background: var(--epic-darker);
+    border: none;
+    border-radius: 15px;
+    padding: 2.5rem 2rem;
+}
+
+.success-modal .modal-body {
+    text-align: center;
+    padding: 1rem;
+}
+
+.success-modal h4 {
+    color: #4CAF50;
+    margin: 2rem 0 1rem;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.success-modal p {
+    color: var(--epic-text-secondary);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.success-modal .btn-primary {
+    background: #4CAF50;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.success-modal .btn-primary:hover {
+    background: #43A047;
+    transform: translateY(-2px);
+}
+
+.best-seller-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff6b6b;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Disable button styles */
+.btn:disabled {
+    background-color: var(--epic-light-gray);
+    border-color: var(--epic-light-gray);
+    cursor: not-allowed;
+}
+
+/* Logo Styling */
+.navbar-brand img {
+    height: 40px;
+    width: auto;
+    transition: transform 0.2s ease;
+}
+
+.navbar-brand:hover img {
+    transform: scale(1.05);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+
+/* Login Modal Styling */
+.modal-content {
+    background: var(--epic-gray);
+    border: 1px solid var(--epic-darker);
+    border-radius: 8px;
+}
+
+.login-logo {
+    width: 100px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.modal-body h3 {
+    color: var(--epic-text);
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.form-floating {
+    background: var(--epic-darker);
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.form-floating input {
+    background-color: var(--epic-darker);
+    border: 1px solid var(--epic-gray);
+    color: var(--epic-text);
+    height: 55px;
+}
+
+.form-floating input:focus {
+    background-color: var(--epic-darker);
+    border-color: var(--epic-accent);
+    box-shadow: none;
+    color: var(--epic-text);
+}
+
+.form-floating label {
+    color: var(--epic-text-secondary);
+    padding-left: 1rem;
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+    color: var(--epic-accent);
+    transform: scale(.85) translateY(-1rem) translateX(.15rem);
+}
+
+.modal .btn-lg {
+    padding: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.modal .btn-outline-primary {
+    color: var(--epic-text);
+    border-color: var(--epic-text-secondary);
+}
+
+.modal .btn-outline-primary:hover {
+    background-color: var(--epic-darker);
+    border-color: var(--epic-text);
+    color: var(--epic-text);
+}
+
+/* Team Section Styles */
+.about-section {
+    padding: 4rem 0;
+    background: var(--epic-darker);
+    background-image: url('../img/about-background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.team-card {
+    background: var(--epic-gray);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    border: 1px solid var(--epic-accent);
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.team-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    margin: 2rem auto;
+    color: var(--epic-accent);
+}
+
+.team-image i {
+    font-size: 4rem;
+}
+
+.team-info {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.team-info h3 {
+    color: var(--epic-text);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.team-role {
+    color: var(--epic-accent);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.team-desc {
+    color: var(--epic-text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.team-social {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.social-link {
+    color: var(--epic-text-secondary);
+    font-size: 1.2rem;
+    transition: color 0.2s ease;
+}
+
+.social-link:hover {
+    color: var(--epic-accent);
+}
+
+/* Footer Styles */
+.footer {
+    background: var(--epic-darker);
+    padding: 4rem 0 1rem;
+    flex-shrink: 0;
+    width: 100%;
+    color: var(--epic-text-secondary);
+    margin-top: auto;
+}
+
+.footer-logo {
+    height: 50px;
+    width: auto;
+    margin-bottom: 1rem;
+}
+
+.footer h5 {
+    color: var(--epic-text);
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+    color: var(--epic-text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: var(--epic-accent);
+}
+
+.footer-contact {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-contact li {
+    display: flex;
+    align-items: start;
+    margin-bottom: 1rem;
+}
+
+.footer-contact i {
+    color: var(--epic-accent);
+    margin-right: 1rem;
+    margin-top: 0.3rem;
+}
+
+.footer-social {
+    margin-top: 2rem;
+}
+
+.footer-social a {
+    color: var(--epic-text-secondary);
+    font-size: 1.5rem;
+    margin-right: 1.5rem;
+    transition: color 0.2s ease;
+}
+
+.footer-social a:hover {
+    color: var(--epic-accent);
+}
+
+.footer-bottom {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--epic-gray);
+    font-size: 0.9rem;
+}
+
+.footer-company p {
+    color: var(--epic-text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 3rem 0 1rem;
+    }
+    
+    .footer-bottom {
+        text-align: center;
+    }
+    
+    .footer-bottom .text-md-end {
+        text-align: center !important;
+        margin-top: 1rem;
+    }
+}
+
+/* Search Styling */
+.search-input {
+    min-width: 300px;
+    background: var(--epic-darker);
+    border: 1px solid var(--epic-gray);
+    color: var(--epic-text);
+    padding: 0.5rem 1rem;
+}
+
+.search-input:focus {
+    background: var(--epic-darker);
+    border-color: var(--epic-accent);
+    color: var(--epic-text);
+    box-shadow: none;
+}
+
+.search-input::placeholder {
+    color: var(--epic-text-secondary);
+}
+
+.search-results {
+    margin-top: 2rem;
+}
+
+.search-results .no-results {
+    text-align: center;
+    padding: 2rem;
+    background: var(--epic-gray);
+    border-radius: 8px;
+    color: var(--epic-text-secondary);
+}
+
+.search-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.search-header h2 {
+    margin: 0;
+}
+
+.search-filters {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Pagination Styling */
+.pagination {
+    margin-bottom: 0;
+}
+
+.pagination .page-link {
+    color: var(--epic-text);
+    background-color: var(--epic-gray);
+    border-color: var(--epic-darker);
+    padding: 0.5rem 1rem;
+}
+
+.pagination .page-link:hover {
+    color: var(--epic-text);
+    background-color: var(--epic-darker);
+    border-color: var(--epic-accent);
+}
+
+.pagination .page-item.active .page-link {
+    background-color: var(--epic-accent);
+    border-color: var(--epic-accent);
+}
+
+.pagination .page-item.disabled .page-link {
+    color: var(--epic-text-secondary);
+    background-color: var(--epic-gray);
+    border-color: var(--epic-darker);
+} 

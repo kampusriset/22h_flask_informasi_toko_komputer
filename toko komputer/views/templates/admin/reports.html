@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="section-header mb-4">
+        <h2>Laporan</h2>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Produk</h5>
+                    <h2>{{ total_products }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total User</h5>
+                    <h2>{{ total_users }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Stok Menipis</h5>
+                    <h2>{{ low_stock }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Produk dengan Stok Menipis -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Produk dengan Stok Menipis</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nama Produk</th>
+                            <th>Kategori</th>
+                            <th>Stok</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in low_stock_products %}
+                        <tr>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.category }}</td>
+                            <td>{{ product.stock }}</td>
+                            <td>
+                                <span class="badge bg-danger">Stok Menipis</span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistik per Kategori -->
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Statistik per Kategori</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Kategori</th>
+                            <th>Total Produk</th>
+                            <th>Total Stok</th>
+                            <th>Rata-rata Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for stat in category_stats %}
+                        <tr>
+                            <td>{{ stat.category }}</td>
+                            <td>{{ stat.total_products }}</td>
+                            <td>{{ stat.total_stock }}</td>
+                            <td>Rp {{ "{:,.0f}".format(stat.avg_price) }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

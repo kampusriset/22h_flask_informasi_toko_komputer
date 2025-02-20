@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Banner -->
+<div class="product-hero" style="background-image: url({{ url_for('static', filename=product.image_url) if product.image_url else 'img/placeholder.jpg' }})">
+    <div class="product-hero-overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="product-hero-content">
+                    <!-- Badge & Title Section -->
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <div class="product-badges mb-3">
+                                <span class="badge bg-primary">{{ product.category }}</span>
+                                {% if product.stock < 10 %}
+                                <span class="badge bg-danger">Stok Terbatas</span>
+                                {% endif %}
+                            </div>
+                            <h1 class="product-title mb-4">{{ product.name }}</h1>
+                        </div>
+                        {% if current_user.is_authenticated and current_user.is_admin() %}
+                        <div class="admin-actions">
+                            <button class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#editProductModal">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <a href="{{ url_for('delete_product', id=product.id) }}" 
+                               class="btn btn-outline-danger ms-2"
+                               onclick="return confirm('Yakin ingin menghapus produk ini?')">
+                                <i class="fas fa-trash"></i> Hapus
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Product Info -->
+                    <div class="product-meta mb-4">
+                        <div class="supplier">
+                            <i class="fas fa-building"></i> {{ product.supplier or 'Official Store' }}
+                        </div>
+                        <div class="stock">
+                            <i class="fas fa-box"></i> Stok: {{ product.stock }}
+                        </div>
+                    </div>
+
+                    <!-- Price & Action -->
+                    <div class="product-actions">
+                        <div class="price-tag mb-3">
+                            {{ "{:,.0f}".format(product.price) }}
+                        </div>
+                        {% if current_user.is_authenticated %}
+                        <form action="{{ url_for('add_to_cart', product_id=product.id) }}" method="POST">
+                            <button type="submit" class="btn btn-primary btn-lg buy-now">
+                                <i class="fas fa-shopping-cart"></i> Tambah ke Keranjang
+                            </button>
+                        </form>
+                        {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">
+                            <i class="fas fa-sign-in-alt"></i> Login untuk Membeli
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Product Details -->
+<div class="container mt-5">
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Description -->
+            <div class="product-section mb-5">
+                <h3 class="section-title">Deskripsi Produk</h3>
+                <div class="product-description">
+                    {{ product.description or 'Tidak ada deskripsi tersedia.' }}
+                </div>
+            </div>
+
+            <!-- Specifications -->
+            <div class="product-section mb-5">
+                <h3 class="section-title">Spesifikasi</h3>
+                <div class="specs-grid">
+                    <div class="spec-item">
+                        <div class="spec-label">Kategori</div>
+                        <div class="spec-value">{{ product.category }}</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Stok</div>
+                        <div class="spec-value">{{ product.stock }}</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Supplier</div>
+                        <div class="spec-value">{{ product.supplier or 'Official Store' }}</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-label">Ditambahkan</div>
+                        <div class="spec-value">{{ product.created_at.strftime('%d %B %Y') }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="product-sidebar">
+                <div class="product-thumbnail">
+                    {% if product.image_url %}
+                    <img src="{{ url_for('static', filename=product.image_url) }}" 
+                         class="img-fluid" alt="{{ product.name }}">
+                    {% else %}
+                    <div class="no-image">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                
+                <div class="sidebar-section">
+                    <h4>Informasi Pembelian</h4>
+                    <ul class="purchase-info">
+                        <li><i class="fas fa-shield-alt"></i> Garansi Resmi</li>
+                        <li><i class="fas fa-truck"></i> Pengiriman Cepat</li>
+                        <li><i class="fas fa-undo"></i> 14 Hari Pengembalian</li>
+                        <li><i class="fas fa-clock"></i> Update Terakhir: {{ product.updated_at.strftime('%d %B %Y') }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal (Only for Admin) -->
+{% if current_user.is_authenticated and current_user.is_admin() %}
+<div class="modal fade" id="editProductModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Produk</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form action="{{ url_for('edit_product', id=product.id) }}" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Nama Produk</label>
+                                <input type="text" class="form-control" name="name" 
+                                       value="{{ product.name }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Kategori</label>
+                                <input type="text" class="form-control" name="category" 
+                                       value="{{ product.category }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Harga</label>
+                                <input type="number" class="form-control" name="price" 
+                                       value="{{ product.price }}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Stok</label>
+                                <input type="number" class="form-control" name="stock" 
+                                       value="{{ product.stock }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Supplier</label>
+                                <input type="text" class="form-control" name="supplier" 
+                                       value="{{ product.supplier }}">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Gambar Produk</label>
+                                <input type="file" class="form-control" name="image">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Deskripsi</label>
+                                <textarea class="form-control" name="description" 
+                                          rows="5">{{ product.description }}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %} 
