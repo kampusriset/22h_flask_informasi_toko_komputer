@@ -19,7 +19,7 @@ Silahkan klik tautan berikut untuk melihat video demonstrasi aplikasi:
 [Klik di sini](LINK)
 
 ## 🌐 Website
-Jika Ingin Mengakses Website Demo, Silahkan download file toko komputer berikut:
+Jika Ingin Mengakses Website Demo, Silahkan download file toko komputer dan login menggunakan akun berikut:
 
 User : admin
 Pass : admin123
