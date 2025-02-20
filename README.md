@@ -18,9 +18,8 @@ Berikut adalah flowchart yang menggambarkan alur kerja aplikasi:
 Silahkan klik tautan berikut untuk melihat video demonstrasi aplikasi:
 [Klik di sini](LINK)
 
-## 🌐 Link Website
-Jika Ingin Mengakses Website Demo, Silahkan Klik tautan berikut:
-[Klik di sini](http://127.0.0.1:5000/)
+## 🌐 Website
+Jika Ingin Mengakses Website Demo, Silahkan download file toko komputer berikut:
 
 User : admin
 Pass : admin123
